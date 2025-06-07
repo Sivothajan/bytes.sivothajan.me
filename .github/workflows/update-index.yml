@@ -1,0 +1,35 @@
+name: Update Index
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "blogs/**/*.md"
+    branches:
+      - main
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install gray-matter
+
+      - name: Update index.json
+        run: node .github/scripts/update-index.js
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add index.json
+          git commit -m "Update index.json" || exit 0
+          git push

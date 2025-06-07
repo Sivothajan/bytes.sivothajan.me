@@ -1,0 +1,32 @@
+name: Format Index
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "index.json"
+    branches:
+      - main
+
+jobs:
+  format-index:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Format JSON
+        run: |
+          # Read and format the JSON file
+          content=$(cat index.json)
+          echo "$content" | jq '.' > index.json
+
+      - name: Commit changes if needed
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add index.json
+            git commit -m "Format index.json"
+            git push
+          fi
