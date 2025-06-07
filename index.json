@@ -1,5 +1,14 @@
 [
     {
+        "id": 2,
+        "title": "bytes.sivothajan.me - README",
+        "date": "2025-June-08",
+        "description": "Bytes by Sivothajan - A collection of byte-sized articles and blog posts covering various topics including technology, science, mathematics, music, and history.",
+        "tags": ["Bytes", "Introduction", "README"],
+        "mdUrl": "https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/refs/heads/main/README.md",
+        "readTime": 2
+    },
+    {
         "id": 1,
         "title": "README",
         "date": "2025-June-07",
