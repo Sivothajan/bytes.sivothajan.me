@@ -1,11 +1,34 @@
 [
     {
+        "id": 3,
+        "title": "Bringing Lightning Address Support to Binance: A Third-Party Solution",
+        "date": "2025-June-09",
+        "description": "Learn how to use Lightning Address with Binance through our open-source bridge solution",
+        "tags": [
+            "Lightning Address",
+            "Decentralized",
+            "Cryptocurrency",
+            "Bitcoin",
+            "Web3",
+            "Binance",
+            "Payments",
+            "Blockchain",
+            "Lightning Network"
+        ],
+        "mdUrl": "https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/tech/cryptocurrency/lightning.sivothajan.me.md",
+        "readTime": 2
+    },
+    {
         "id": 2,
         "title": "bytes.sivothajan.me - README",
         "date": "2025-June-08",
         "description": "Bytes by Sivothajan - A collection of byte-sized articles and blog posts covering various topics including technology, science, mathematics, music, and history.",
-        "tags": ["Bytes", "Introduction", "README"],
-        "mdUrl": "https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/refs/heads/main/README.md",
+        "tags": [
+            "Bytes",
+            "Introduction",
+            "README"
+        ],
+        "mdUrl": "https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/README.md",
         "readTime": 2
     },
     {
@@ -13,8 +36,11 @@
         "title": "README",
         "date": "2025-June-07",
         "description": "My GitHub Profile README",
-        "tags": ["GitHub", "README"],
-        "mdUrl": "https://raw.githubusercontent.com/Sivothajan/Sivothajan/refs/heads/main/README.md",
+        "tags": [
+            "GitHub",
+            "README"
+        ],
+        "mdUrl": "https://raw.githubusercontent.com/Sivothajan/Sivothajan/main/README.md",
         "readTime": 1
     }
 ]
