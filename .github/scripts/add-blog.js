@@ -1,5 +1,6 @@
 const fs = require('fs');
 const matter = require('gray-matter');
+const path = require('path');
 
 // Read the template file path from command line
 const templatePath = process.argv[2];
@@ -24,6 +25,11 @@ function getNextAvailableId(posts) {
     return nextId;
 }
 
+function normalizePath(filePath) {
+    // Convert Windows path separators to forward slashes
+    return filePath.replace(/\\/g, '/');
+}
+
 try {
     // Read the template file
     const template = fs.readFileSync(templatePath, 'utf8');
@@ -45,10 +51,15 @@ try {
     // Handle mdUrl - generate for local files, validate for external
     let mdUrl = data.mdUrl;
     if (!mdUrl) {
+        // Normalize the template path
+        const normalizedPath = normalizePath(templatePath);
+        
         // Check if file is in blogs directory
-        if (templatePath.includes('\\blogs\\')) {
-            const relativePath = templatePath.split('\\blogs\\')[1].replace(/\\/g, '/');
+        if (normalizedPath.includes('/blogs/')) {
+            // Get the path after 'blogs/'
+            const relativePath = normalizedPath.split('/blogs/')[1];
             mdUrl = `https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/blogs/${relativePath}`;
+            console.log('Generated mdUrl:', mdUrl); // Debug log
         } else {
             console.error('Files outside blogs/ directory must specify mdUrl in frontmatter');
             process.exit(1);
@@ -65,7 +76,9 @@ try {
     }
 
     // Check if entry with same mdUrl exists
-    const existingIndex = posts.findIndex(p => p.mdUrl === data.mdUrl); const post = {
+    const existingIndex = posts.findIndex(p => p.mdUrl === mdUrl);
+    
+    const post = {
         id: existingIndex >= 0 ? posts[existingIndex].id : getNextAvailableId(posts),
         title: data.title,
         date: data.date,

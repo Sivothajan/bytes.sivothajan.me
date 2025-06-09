@@ -1,13 +1,29 @@
 param(
     [Parameter(Mandatory=$false)]
     [string]$title,
+    
     [Parameter(Mandatory=$false)]
     [string]$description,
+    
     [Parameter(Mandatory=$false)]
     [string]$tags,
+    
     [Parameter(Mandatory=$false)]
-    [string]$mdUrl
+    [string]$mdUrl,
+    
+    [Parameter(Mandatory=$false)]
+    [ValidateSet('tech', 'science', 'maths', 'music', 'history')]
+    [string]$category = 'tech',
+    
+    [Parameter(Mandatory=$false)]
+    [string]$subcategory
 )
+
+# Function to sanitize filename
+function Format-SafeFileName {
+    param([string]$fileName)
+    return $fileName -replace '[^\w\-\.]', '-'
+}
 
 # Validate tags format if provided
 if ($tags -and $tags -notmatch '^\s*"[^"]+"\s*(,\s*"[^"]+"\s*)*$') {
@@ -21,32 +37,67 @@ if ($mdUrl -and -not $mdUrl.StartsWith('https://raw.githubusercontent.com/Sivoth
     exit 1
 }
 
+# Set default title if not provided
+if (-not $title) {
+    $title = "Your Blog Title"
+}
+
+# Set default description if not provided
+if (-not $description) {
+    $description = "Your blog description here"
+}
+
+# Set default tags if not provided
+if (-not $tags) {
+    $tags = '"tag1", "tag2"'
+}
+
+# Create blog directory path
+$blogDir = Join-Path "blogs" $category
+if ($subcategory) {
+    $blogDir = Join-Path $blogDir $subcategory
+}
+
+# Create directory if it doesn't exist
+if (-not (Test-Path $blogDir)) {
+    New-Item -ItemType Directory -Path $blogDir -Force | Out-Null
+    Write-Host "Created directory: $blogDir"
+}
+
+# Generate markdown content
 $templateContent = @"
 ---
-title: "$($title ? $title : "Your Blog Title")"
-date: "$(Get-Date -Format "yyyy-MMMM-dd" | %{$_ -replace '-0','-'})"
-description: "$($description ? $description : "Your blog description here")"
-tags: [$($tags ? $tags : '"tag1", "tag2"')]
-$($mdUrl ? "mdUrl: `"$mdUrl`"" : "# mdUrl: Uncomment and set this for external markdown files")
+title: "$title"
+date: "$(Get-Date -Format "yyyy-MMMM-dd" | ForEach-Object {$_ -replace '-0','-'})"
+description: "$description"
+tags: [$tags]
+$(if ($mdUrl) { "mdUrl: `"$mdUrl`"" } else { "# mdUrl: Uncomment and set this for external markdown files" })
 ---
 
 Your blog content here...
 "@
 
-# Create a temporary template file
+# Create file name from title
+$fileName = Format-SafeFileName($title.ToLower()) + ".md"
+$filePath = Join-Path $blogDir $fileName
+
+# Save the template to a temporary file for processing
 $tempFile = [System.IO.Path]::GetTempFileName() + ".md"
 $templateContent | Out-File -FilePath $tempFile -Encoding utf8
 
 try {
     # Run the add-blog script
+    Write-Host "Adding blog post..." -NoNewline
     $output = node .github/scripts/add-blog.js $tempFile 2>&1
     if ($LASTEXITCODE -ne 0) {
-        Write-Error $output
+        Write-Error "`nFailed to add blog post:`n$output"
         exit 1
     }
-    Write-Host "Success! Check index.json for your new entry."
+    Write-Host " Done!"
+    Write-Host "Blog post will be available at: $filePath"
+    Write-Host "Check index.json for the new entry."
 } catch {
-    Write-Error $_.Exception.Message
+    Write-Error "`nError occurred: $($_.Exception.Message)"
     exit 1
 } finally {
     # Clean up the temporary file

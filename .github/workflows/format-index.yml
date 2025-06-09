@@ -8,25 +8,60 @@ on:
     branches:
       - main
 
+# Prevent concurrent runs of the same workflow
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   format-index:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for proper git operations
 
       - name: Format JSON
+        id: format
         run: |
-          # Read and format the JSON file
-          content=$(cat index.json)
-          echo "$content" | jq '.' > index.json
+          if [ -f index.json ]; then
+            # Backup original file
+            cp index.json index.json.backup
+            
+            # Format JSON while preserving UTF-8 and check for validity
+            if content=$(cat index.json | jq --sort-keys '.'); then
+              echo "$content" > index.json.tmp
+              mv index.json.tmp index.json
+              echo "JSON formatting successful"
+            else
+              echo "Error: Invalid JSON format"
+              mv index.json.backup index.json
+              exit 1
+            fi
+          else
+            echo "Error: index.json not found!"
+            exit 1
+          fi
 
       - name: Commit changes if needed
+        if: success()
         run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
           if [[ -n $(git status --porcelain) ]]; then
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
             git add index.json
-            git commit -m "Format index.json"
+            git commit -m "Format index.json
+            
+            Automated formatting from workflow run #${{ github.run_number }}"
             git push
+          else
+            echo "No formatting changes needed"
           fi
+
+      - name: Cleanup
+        if: always()
+        run: |
+          # Clean up backup file if it exists
+          rm -f index.json.backup

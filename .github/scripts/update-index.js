@@ -16,7 +16,9 @@ function getAllMarkdownFiles(dir) {
         if (stat.isDirectory()) {
             results = results.concat(getAllMarkdownFiles(fullPath));
         } else if (item.endsWith('.md')) {
-            results.push(fullPath);
+            // Store the relative path from the blogs directory
+            const relativePath = path.relative(BLOGS_DIR, fullPath).replace(/\\/g, '/');
+            results.push(relativePath);
         }
     }
 
@@ -77,7 +79,7 @@ function updateIndex() {
             date: formatDate(data.date || new Date()),
             description: data.description || '',
             tags: data.tags || [],
-            mdUrl: `https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/${relativePath}`,
+            mdUrl: `https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/blogs/${relativePath}`,
             readTime: estimateReadTime(markdown)
         };
 
