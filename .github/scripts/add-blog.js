@@ -10,6 +10,12 @@ if (!templatePath) {
     process.exit(1);
 }
 
+// Validate template file exists
+if (!fs.existsSync(templatePath)) {
+    console.error(`Template file not found: ${templatePath}`);
+    process.exit(1);
+}
+
 function estimateReadTime(content) {
     const wordsPerMinute = 200;
     const words = content.split(/\s+/).length;
@@ -26,8 +32,8 @@ function getNextAvailableId(posts) {
 }
 
 function normalizePath(filePath) {
-    // Convert Windows path separators to forward slashes
-    return filePath.replace(/\\/g, '/');
+    // Convert Windows path separators to forward slashes and resolve relative paths
+    return path.resolve(filePath).replace(/\\/g, '/');
 }
 
 try {
@@ -35,16 +41,20 @@ try {
     const template = fs.readFileSync(templatePath, 'utf8');
     const { data, content } = matter(template);
 
-    // Check required fields
-    if (!data.title || !data.date || !data.description || !data.tags) {
-        console.error('Template must include title, date, description, and tags in frontmatter');
+    // Check required fields with more descriptive errors
+    const requiredFields = ['title', 'date', 'description', 'tags'];
+    const missingFields = requiredFields.filter(field => !data[field]);
+    
+    if (missingFields.length > 0) {
+        console.error('Missing required frontmatter fields:');
+        missingFields.forEach(field => console.error(`- ${field}`));
+        console.error('\nTemplate frontmatter should look like:\n---\ntitle: "Your Title"\ndate: "2025-June-10"\ndescription: "Your description"\ntags: ["tag1", "tag2"]\n---');
         process.exit(1);
     }
 
-    // Validate date format (YYYY-Month-DD)
-    const dateRegex = /^\d{4}-(January|February|March|April|May|June|July|August|September|October|November|December)-\d{1,2}$/;
-    if (!dateRegex.test(data.date)) {
-        console.error('Date must be in format: YYYY-Month-DD (e.g., 2025-June-8)');
+    // Validate tags format
+    if (!Array.isArray(data.tags)) {
+        console.error('Tags must be an array in frontmatter, e.g.:\ntags: ["tag1", "tag2"]');
         process.exit(1);
     }
 
@@ -55,15 +65,16 @@ try {
         const normalizedPath = normalizePath(templatePath);
         
         // Check if file is in blogs directory
-        if (normalizedPath.includes('/blogs/')) {
-            // Get the path after 'blogs/'
-            const relativePath = normalizedPath.split('/blogs/')[1];
-            mdUrl = `https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/blogs/${relativePath}`;
-            console.log('Generated mdUrl:', mdUrl); // Debug log
-        } else {
-            console.error('Files outside blogs/ directory must specify mdUrl in frontmatter');
+        if (!normalizedPath.includes('/blogs/')) {
+            console.error('Error: File must be in a subdirectory of blogs/ or specify mdUrl in frontmatter');
+            console.error('Valid directories: blogs/tech/, blogs/science/, blogs/maths/, blogs/music/, blogs/history/');
             process.exit(1);
         }
+
+        // Get the path after 'blogs/'
+        const relativePath = normalizedPath.split('/blogs/')[1];
+        mdUrl = `https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/blogs/${relativePath}`;
+        console.log('Generated mdUrl:', mdUrl); // Debug log
     } else if (!mdUrl.startsWith('https://raw.githubusercontent.com/Sivothajan/')) {
         console.error('mdUrl must be a GitHub raw URL starting with https://raw.githubusercontent.com/Sivothajan/');
         process.exit(1);
@@ -73,6 +84,8 @@ try {
     let posts = [];
     if (fs.existsSync('index.json')) {
         posts = JSON.parse(fs.readFileSync('index.json', 'utf8'));
+    } else {
+        console.log('Creating new index.json file');
     }
 
     // Check if entry with same mdUrl exists
@@ -108,5 +121,8 @@ try {
 
 } catch (error) {
     console.error('Error:', error.message);
+    if (error.code === 'ENOENT') {
+        console.error('Make sure you are running the script from the repository root directory');
+    }
     process.exit(1);
 }

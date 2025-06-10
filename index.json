@@ -1,24 +1,5 @@
 [
     {
-        "id": 3,
-        "title": "Bringing Lightning Address Support to Binance: A Third-Party Solution",
-        "date": "2025-June-09",
-        "description": "Learn how to use Lightning Address with Binance through our open-source bridge solution",
-        "tags": [
-            "Lightning Address",
-            "Decentralized",
-            "Cryptocurrency",
-            "Bitcoin",
-            "Web3",
-            "Binance",
-            "Payments",
-            "Blockchain",
-            "Lightning Network"
-        ],
-        "mdUrl": "https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/tech/cryptocurrency/lightning.sivothajan.me.md",
-        "readTime": 2
-    },
-    {
         "id": 2,
         "title": "bytes.sivothajan.me - README",
         "date": "2025-June-08",

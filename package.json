@@ -1,0 +1,14 @@
+{
+  "name": "bytes.sivothajan.me",
+  "version": "1.0.0",
+  "description": "Bytes by Sivothajan - A collection of byte-sized articles and blog posts",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "update-index": "node .github/scripts/update-index.js",
+    "add-blog": "node .github/scripts/add-blog.js"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3"
+  }
+}

@@ -94,7 +94,20 @@ try {
         exit 1
     }
     Write-Host " Done!"
-    Write-Host "Blog post will be available at: $filePath"
+    
+    # Save the actual blog file
+    if (-not $mdUrl) {  # Only save local files
+        # Create the directory if it doesn't exist
+        $fileDir = Split-Path $filePath
+        if (-not (Test-Path $fileDir)) {
+            New-Item -ItemType Directory -Path $fileDir -Force | Out-Null
+        }
+        
+        # Copy the template to the final location
+        $templateContent | Out-File -FilePath $filePath -Encoding utf8
+        Write-Host "Blog post saved to: $filePath"
+    }
+    
     Write-Host "Check index.json for the new entry."
 } catch {
     Write-Error "`nError occurred: $($_.Exception.Message)"

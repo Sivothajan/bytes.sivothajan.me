@@ -27,21 +27,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: 'npm'  # Enable npm caching
 
       - name: Install dependencies
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci  # Clean install if package-lock exists
-          else
-            npm install gray-matter
-          fi
+        run: npm install
 
       - name: Update index.json
         id: update
         run: |
           echo "Updating index.json..."
-          node .github/scripts/update-index.js
+          npm run update-index
           echo "Update complete."
 
       - name: Format index.json
