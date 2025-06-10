@@ -1,9 +1,62 @@
 const fs = require('fs');
 const path = require('path');
 const matter = require('gray-matter');
+const { execSync } = require('child_process');
 
 const BLOGS_DIR = 'blogs';
 const INDEX_FILE = 'index.json';
+
+// Function to check if running in GitHub Actions
+function isGitHubActions() {
+    return process.env.GITHUB_ACTIONS === 'true';
+}
+
+// Function to safely execute git commands
+function execGitCommand(command) {
+    try {
+        return execSync(command, { encoding: 'utf8' });
+    } catch (error) {
+        console.error(`Git command failed: ${command}`);
+        console.error(error.message);
+        throw error;
+    }
+}
+
+// Function to handle git operations
+async function handleGitOperations() {
+    if (isGitHubActions()) {
+        try {
+            // Configure git
+            execGitCommand('git config --local user.email "github-actions[bot]@users.noreply.github.com"');
+            execGitCommand('git config --local user.name "github-actions[bot]"');
+            
+            // Pull latest changes with rebase
+            try {
+                execGitCommand('git pull --rebase origin main');
+            } catch (error) {
+                if (error.message.includes('no such ref')) {
+                    console.log('No remote changes to pull');
+                } else {
+                    throw error;
+                }
+            }
+
+            // Check if there are changes
+            const status = execGitCommand('git status --porcelain');
+            if (status.length > 0) {
+                execGitCommand('git add index.json');
+                execGitCommand('git commit -m "Update and format index.json"');
+                execGitCommand('git push origin main');
+                console.log('Successfully pushed changes to remote');
+            } else {
+                console.log('No changes to commit');
+            }
+        } catch (error) {
+            console.error('Failed to handle git operations:', error.message);
+            process.exit(1);
+        }
+    }
+}
 
 function getAllMarkdownFiles(dir) {
     let results = [];
@@ -122,8 +175,14 @@ function updateIndex() {
     try {
         fs.writeFileSync(INDEX_FILE, JSON.stringify(posts, null, 4));
         console.log('Successfully updated index.json');
+        
+        // Handle git operations if in GitHub Actions
+        if (isGitHubActions()) {
+            handleGitOperations();
+        }
     } catch (err) {
         console.error(`Error: Could not write to ${INDEX_FILE}: ${err.message}`);
+        process.exit(1);
     }
 }
 
