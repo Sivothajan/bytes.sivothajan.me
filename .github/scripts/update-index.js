@@ -14,7 +14,7 @@ function isGitHubActions() {
 // Function to safely execute git commands
 function execGitCommand(command) {
     try {
-        return execSync(command, { encoding: 'utf8' });
+        return execSync(command, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
     } catch (error) {
         console.error(`Git command failed: ${command}`);
         console.error(error.message);
@@ -30,22 +30,33 @@ async function handleGitOperations() {
             execGitCommand('git config --local user.email "github-actions[bot]@users.noreply.github.com"');
             execGitCommand('git config --local user.name "github-actions[bot]"');
             
-            // Pull latest changes with rebase
-            try {
-                execGitCommand('git pull --rebase origin main');
-            } catch (error) {
-                if (error.message.includes('no such ref')) {
-                    console.log('No remote changes to pull');
-                } else {
-                    throw error;
-                }
-            }
-
-            // Check if there are changes
+            // Stage changes to index.json first
+            execGitCommand('git add index.json');
+            
+            // Check if there are changes to commit
             const status = execGitCommand('git status --porcelain');
             if (status.length > 0) {
-                execGitCommand('git add index.json');
+                // Commit changes
                 execGitCommand('git commit -m "Update and format index.json"');
+                
+                try {
+                    // Try to pull with rebase
+                    execGitCommand('git pull --rebase origin main');
+                } catch (error) {
+                    if (error.message.includes('no such ref')) {
+                        console.log('No remote changes to pull');
+                    } else {
+                        // If rebase fails, try to abort it
+                        try {
+                            execGitCommand('git rebase --abort');
+                        } catch (abortError) {
+                            console.log('No rebase in progress');
+                        }
+                        throw error;
+                    }
+                }
+
+                // Push changes
                 execGitCommand('git push origin main');
                 console.log('Successfully pushed changes to remote');
             } else {
@@ -173,12 +184,25 @@ function updateIndex() {
     });
 
     try {
-        fs.writeFileSync(INDEX_FILE, JSON.stringify(posts, null, 4));
+        // Get original content if file exists
+        let originalContent = '';
+        if (fs.existsSync(INDEX_FILE)) {
+            originalContent = fs.readFileSync(INDEX_FILE, 'utf8');
+        }
+
+        // Write new content
+        const newContent = JSON.stringify(posts, null, 4);
+        fs.writeFileSync(INDEX_FILE, newContent);
         console.log('Successfully updated index.json');
         
-        // Handle git operations if in GitHub Actions
-        if (isGitHubActions()) {
-            handleGitOperations();
+        // Only proceed with git operations if content actually changed
+        if (newContent !== originalContent) {
+            // Handle git operations if in GitHub Actions
+            if (isGitHubActions()) {
+                handleGitOperations();
+            }
+        } else {
+            console.log('No changes detected in index.json');
         }
     } catch (err) {
         console.error(`Error: Could not write to ${INDEX_FILE}: ${err.message}`);
