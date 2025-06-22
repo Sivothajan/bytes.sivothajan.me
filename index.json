@@ -1,5 +1,18 @@
 [
   {
+    "date": "2025-June-22",
+    "description": "இந்த கட்டுரையில், தமிழ்ச் சொல் **சிவோதயன்** என்பது தமிழ் பெயராக பொருந்துமா என ஆராயப்படுகிறது. தொல்காப்பியம் மற்றும் தமிழ் இலக்கண விதிகள் அடிப்படையில், பெயர் அமைப்பும் அதன் பொருள், ஒலி விதிகள் ஆகியவை ஆராயப்படுகின்றன.",
+    "id": 4,
+    "mdUrl": "https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/blogs/history/tamil/my_name.md",
+    "readTime": 3,
+    "tags": [
+      "தமிழ்",
+      "தொல்காப்பியம்",
+      "இலக்கணம்"
+    ],
+    "title": "எனது பெயர்: தமிழ் பெயர் ஆகுமா?"
+  },
+  {
     "date": "2025-June-09",
     "description": "Learn how to use Lightning Address with Binance through our open-source bridge solution",
     "id": 3,
