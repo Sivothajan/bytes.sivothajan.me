@@ -9,7 +9,7 @@ tags: ["tag1", "tag2"]
 
 Your blog content here...
 
-# Tips for Writing Your Blog
+## Tips for Writing Your Blog
 
 1. Make sure to update the frontmatter fields above
 2. The date format should be "YYYY-Month-DD" (e.g., 2025-June-8)
