@@ -101,7 +101,7 @@ For detailed documentation about the blog management tools, see [.github/README.
 
 ## 🗂️ Project Structure
 
-```bash
+```text
 bytes.sivothajan.me/
 ├── blogs/          # Contains all blog posts organized by category
 ├── index.json      # Index file containing metadata for all posts
