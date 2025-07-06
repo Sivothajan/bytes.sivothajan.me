@@ -5,7 +5,11 @@
     "id": 4,
     "mdUrl": "https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/blogs/history/tamil/my_name.md",
     "readTime": 3,
-    "tags": ["தமிழ்", "தொல்காப்பியம்", "இலக்கணம்"],
+    "tags": [
+      "தமிழ்",
+      "தொல்காப்பியம்",
+      "இலக்கணம்"
+    ],
     "title": "எனது பெயர்: தமிழ் பெயர் ஆகுமா?"
   },
   {
@@ -33,7 +37,11 @@
     "id": 2,
     "mdUrl": "https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/README.md",
     "readTime": 2,
-    "tags": ["Bytes", "Introduction", "README"],
+    "tags": [
+      "Bytes",
+      "Introduction",
+      "README"
+    ],
     "title": "bytes.sivothajan.me - README"
   },
   {
@@ -42,7 +50,10 @@
     "id": 1,
     "mdUrl": "https://raw.githubusercontent.com/Sivothajan/Sivothajan/main/README.md",
     "readTime": 1,
-    "tags": ["GitHub", "README"],
+    "tags": [
+      "GitHub",
+      "README"
+    ],
     "title": "README"
   }
 ]
