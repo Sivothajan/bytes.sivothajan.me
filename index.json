@@ -1,5 +1,22 @@
 [
   {
+    "date": "2025-July-07",
+    "description": "A brief blog on how I created a GitHub Profile View Counter and deployed it on Vercel.",
+    "id": 5,
+    "mdUrl": "https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/blogs/tech/github/profile_view_counter.md",
+    "readTime": 3,
+    "tags": [
+      "GitHub",
+      "Profile View Counter",
+      "Vercel",
+      "Serverless",
+      "Edge Functions",
+      "Serverless Functions",
+      "Self Hosting"
+    ],
+    "title": "How I made my own GitHub Profile View Counter"
+  },
+  {
     "date": "2025-June-22",
     "description": "இந்த கட்டுரையில், தமிழ்ச் சொல் சிவோதயன் என்பது தமிழ் பெயராக பொருந்துமா என ஆராயப்படுகிறது. தொல்காப்பியம் மற்றும் தமிழ் இலக்கண விதிகள் அடிப்படையில், பெயர் அமைப்பும் அதன் பொருள், ஒலி விதிகள் ஆகியவை ஆராயப்படுகின்றன.",
     "id": 4,
