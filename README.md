@@ -64,7 +64,7 @@ Each article is stored in the respective category folder under `blogs/` and is w
 
    c. Create your own markdown file with:
 
-   ```markdown
+   ```yaml
    ---
    title: "Your Title"
    date: "2025-June-8"
