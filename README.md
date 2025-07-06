@@ -31,7 +31,7 @@ Each article is stored in the respective category folder under `blogs/` and is w
 
 2. Add frontmatter to your markdown file:
 
-   ```markdown
+   ```yaml
    ---
    title: "Your Blog Title"
    date: "2025-June-8"
