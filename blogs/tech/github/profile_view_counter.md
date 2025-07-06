@@ -36,7 +36,7 @@ I needed a URL that returns an image (SVG) which dynamically updates with the nu
 
 ## What I Did
 
-### Steps I took to create the GitHub Profile View Counter:
+### Steps I took to create the GitHub Profile View Counter
 
 1. I copied the SVG image template from [Shields.io](https://shields.io).
 2. I created a Redis database using [Upstash](https://upstash.com).
