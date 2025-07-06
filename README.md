@@ -19,7 +19,8 @@ Each article is stored in the respective category folder under `blogs/` and is w
 ### Local Blog Posts (in this repo)
 
 1. Create your markdown file in the appropriate category folder under `blogs/`:
-   ```
+
+   ```text
    blogs/
    ├── history/
    ├── maths/
@@ -29,6 +30,7 @@ Each article is stored in the respective category folder under `blogs/` and is w
    ```
 
 2. Add frontmatter to your markdown file:
+
    ```markdown
    ---
    title: "Your Blog Title"
@@ -47,11 +49,13 @@ Each article is stored in the respective category folder under `blogs/` and is w
 1. Use any of these methods to add to index.json:
 
    a. Quick PowerShell command:
+
    ```powershell
    .\.github\scripts\add-blog.ps1 -title "My Blog" -description "A great post" -tags '"tag1", "tag2"' -mdUrl "https://raw.githubusercontent.com/Sivothajan/other-repo/main/post.md"
    ```
 
    b. Using template:
+
    ```powershell
    copy .github\templates\blog-template.md my-post.md
    # Edit my-post.md
@@ -59,6 +63,7 @@ Each article is stored in the respective category folder under `blogs/` and is w
    ```
 
    c. Create your own markdown file with:
+
    ```markdown
    ---
    title: "Your Title"
@@ -82,7 +87,7 @@ For detailed documentation about the blog management tools, see [.github/README.
 
 ## 📂 Directory Structure
 
-```
+```text
 .
 ├── .github/          # GitHub Actions and management scripts
 ├── blogs/           # Blog post markdown files

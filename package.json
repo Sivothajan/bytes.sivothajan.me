@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "Bytes by Sivothajan - A collection of byte-sized articles and blog posts",
   "private": true,
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "update-index": "node .github/scripts/update-index.js",
-    "add-blog": "node .github/scripts/add-blog.js"
+    "add-blog": "node .github/scripts/add-blog.js",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
   }
 }
