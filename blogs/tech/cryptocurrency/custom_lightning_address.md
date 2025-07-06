@@ -2,18 +2,7 @@
 title: "Bringing Lightning Address Support to Binance: A Third-Party Solution"
 date: "2025-June-09"
 description: "Learn how to use Lightning Address with Binance through our open-source bridge solution"
-tags:
-  [
-    "Lightning Address",
-    "Decentralized",
-    "Cryptocurrency",
-    "Bitcoin",
-    "Web3",
-    "Binance",
-    "Payments",
-    "Blockchain",
-    "Lightning Network",
-  ]
+tags: [ "Lightning Address", "Decentralized", "Cryptocurrency", "Bitcoin", "Web3", "Binance", "Payments", "Blockchain", "Lightning Network"]
 ---
 
 ## Bringing Lightning Address Support to Binance: A Third-Party Solution

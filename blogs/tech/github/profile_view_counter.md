@@ -2,16 +2,7 @@
 title: "How I made my own GitHub Profile View Counter"
 date: "2025-July-07"
 description: "A brief blog on how I created a GitHub Profile View Counter and deployed it on Vercel."
-tags:
-  [
-    "GitHub",
-    "Profile View Counter",
-    "Vercel",
-    "Serverless",
-    "Edge Functions",
-    "Serverless Functions",
-    "Self Hosting",
-  ]
+tags: ["GitHub", "Profile View Counter", "Vercel", "Serverless", "Edge Functions", "Serverless Functions", "Self Hosting"]
 ---
 
 ## Introduction
