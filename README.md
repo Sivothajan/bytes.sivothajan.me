@@ -38,7 +38,6 @@ Each article is stored in the respective category folder under `blogs/` and is w
    description: "A brief description"
    tags: ["tag1", "tag2"]
    ---
-
    Your content here...
    ```
 
