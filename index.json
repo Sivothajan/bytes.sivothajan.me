@@ -1,5 +1,20 @@
 [
   {
+    "date": "2025-August-16",
+    "description": "A brief blog on how I set up a basic Fediverse server using Vercel Edge Functions.",
+    "id": 7,
+    "mdUrl": "https://raw.githubusercontent.com/Sivothajan/bytes.sivothajan.me/main/blogs/tech/fediverse/serverless_fediverse.md",
+    "readTime": 3,
+    "tags": [
+      "Fediverse",
+      "Vercel",
+      "Edge Functions",
+      "Serverless",
+      "Self Hosting"
+    ],
+    "title": "Basic Serverless Fediverse Setup with Vercel Edge Functions"
+  },
+  {
     "date": "2025-July-13",
     "description": "RegEx issues when upgrading Express.js from v4.x to v5.x and how I solved them.",
     "id": 6,
